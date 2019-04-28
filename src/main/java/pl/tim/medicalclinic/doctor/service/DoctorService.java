@@ -41,7 +41,7 @@ public class DoctorService {
     }
 
     public List<DoctorDto> findDoctors() {
-        return doctorRepository.findAll().stream().map(doctor -> DoctorService.this.convertToDto(doctor)).collect(Collectors.toList());
+        return doctorRepository.findAll().stream().map(DoctorService.this::convertToDto).collect(Collectors.toList());
     }
 
     public DoctorDto findDoctor(Long id) {

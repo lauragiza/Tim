@@ -1,4 +1,4 @@
-package pl.tim.medicalclinic.offices;
+package pl.tim.medicalclinic.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/offices")
 public class OfficeController {
 
-    OfficeService officeService;
+    private OfficeService officeService;
 
     @Autowired
     public OfficeController(OfficeService officeService) {
@@ -32,7 +32,7 @@ public class OfficeController {
         return officeService.createOffice(officeDto);
     }
 
-    @DeleteMapping
+    @DeleteMapping(value = "/{office_id}")
     public void deleteOffice(@PathVariable("office_id") Long office_id) {
         officeService.deleteOffice(office_id);
     }

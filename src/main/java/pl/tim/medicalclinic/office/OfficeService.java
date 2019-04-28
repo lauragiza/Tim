@@ -1,4 +1,4 @@
-package pl.tim.medicalclinic.offices;
+package pl.tim.medicalclinic.office;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class OfficeService {
-    OfficeRepository officiesRepository;
-    ModelMapper modelMapper;
+    private OfficeRepository officiesRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public OfficeService(OfficeRepository officiesRepository, ModelMapper modelMapper) {

@@ -1,9 +1,9 @@
-package pl.tim.medicalclinic.offices;
+package pl.tim.medicalclinic.office;
 
 import lombok.Data;
 
 @Data
-public class OfficeDto {
+class OfficeDto {
     int number;
     String name;
 }

@@ -1,4 +1,4 @@
-package pl.tim.medicalclinic.offices;
+package pl.tim.medicalclinic.office;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
