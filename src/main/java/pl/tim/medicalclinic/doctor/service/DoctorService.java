@@ -10,8 +10,6 @@ import pl.tim.medicalclinic.doctor.repository.DoctorRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +18,7 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     final private ModelMapper modelMapper;
 
-    @Autowired // <- for better understand, from new wersion it is deprecated
+    @Autowired
     public DoctorService(DoctorRepository doctorRepository, ModelMapper modelMapper) {
         this.doctorRepository = doctorRepository;
         this.modelMapper = modelMapper;
@@ -38,30 +36,17 @@ public class DoctorService {
 
     public DoctorDto updateDoctor(DoctorDto doctorDto, Long doctor_id) {
         Doctor baseDoctor = doctorRepository.getOne(doctor_id);
-        // set field which can be updated eg.
         baseDoctor.setPhone(doctorDto.getPhone());
-
-        //etc..
         return convertToDto(doctorRepository.save(baseDoctor));
     }
 
     public List<DoctorDto> findDoctors() {
-        return doctorRepository.findAll().stream().map(new Function<Doctor, DoctorDto>() {
-            @Override
-            public DoctorDto apply(Doctor doctor) {
-                return DoctorService.this.convertToDto(doctor);
-            }
-        }).collect(Collectors.toList());
+        return doctorRepository.findAll().stream().map(doctor -> DoctorService.this.convertToDto(doctor)).collect(Collectors.toList());
     }
 
     public DoctorDto findDoctor(Long id) {
         Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(new Supplier<EntityNotFoundException>() {
-                    @Override
-                    public EntityNotFoundException get() {
-                        return new EntityNotFoundException("Can not find Doctor with ID: " + id);
-                    }
-                }); // or throw any custom runtime exception
+                .orElseThrow(() -> new EntityNotFoundException("Can not find Doctor with ID: " + id));
         return convertToDto(doctor);
     }
 

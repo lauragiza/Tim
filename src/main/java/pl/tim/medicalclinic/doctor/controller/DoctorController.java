@@ -15,7 +15,7 @@ public class DoctorController {
 
     private final DoctorService doctorService;
 
-    @Autowired // <- for better understand, from new wersion it is deprecated
+    @Autowired
     public DoctorController(DoctorService doctorService) {
         this.doctorService = doctorService;
     }

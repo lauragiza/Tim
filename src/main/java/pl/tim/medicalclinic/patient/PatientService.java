@@ -1,30 +1,42 @@
 package pl.tim.medicalclinic.patient;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
 public class PatientService {
-    PatientRepository repository;
+    private PatientRepository repository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public PatientService(PatientRepository repository){
-        this.repository=repository;
-
-    }
-    public List<Patient> findPatients(){
-        return repository.findAll();
-
-    }
-    public Patient findPatient(Long id){
-        return repository.findById(id).get();
+    public PatientService(PatientRepository repository, ModelMapper modelMapper) {
+        this.repository = repository;
+        this.modelMapper = modelMapper;
     }
 
-    public Patient addNewPatient(Patient patient){
+    List<PatientDto> findPatients() {
+        return repository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 
-        return repository.save(patient);
+    PatientDto findPatient(Long id) {
+        return convertToDto(repository.getOne(id));
+    }
+
+    Patient addNewPatient(PatientDto patientDto) {
+        return repository.save(convertToEntity(patientDto));
+    }
+
+    private PatientDto convertToDto(Patient patient) {
+        return modelMapper.map(patient, PatientDto.class);
+    }
+
+    private Patient convertToEntity(PatientDto patientDto) throws ParseException {
+        return modelMapper.map(patientDto, Patient.class);
     }
 }
