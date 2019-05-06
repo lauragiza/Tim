@@ -32,6 +32,11 @@ public class PatientService {
         return repository.save(convertToEntity(patientDto));
     }
 
+    void deletePatient(Long id) {
+        Patient patientToRemove = repository.findById(id).get();
+        repository.delete(patientToRemove);
+    }
+
     private PatientDto convertToDto(Patient patient) {
         return modelMapper.map(patient, PatientDto.class);
     }

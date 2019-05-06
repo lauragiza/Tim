@@ -1,7 +1,6 @@
 package pl.tim.medicalclinic.patient;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,25 +10,30 @@ import java.util.List;
 @RequestMapping("/patients")
 public class PatientController {
     private PatientService patientService;
+
     @Autowired
-    public PatientController(PatientService patientService){
-        this.patientService=patientService;
+    public PatientController(PatientService patientService) {
+        this.patientService = patientService;
     }
+
     @GetMapping
-    public List<Patient> findPatients(){
+    public List<PatientDto> findPatients() {
         return patientService.findPatients();
-
-
-
     }
-    @GetMapping("/{id}")
-    public Patient findPatient(@PathVariable Long id){
 
+    @GetMapping("/{id}")
+    public PatientDto findPatient(@PathVariable Long id) {
         return patientService.findPatient(id);
     }
+
     @PostMapping
-    public Patient addNewPatient(@RequestBody @Valid Patient patient){
+    public Patient addNewPatient(@RequestBody @Valid PatientDto patient) {
         return patientService.addNewPatient(patient);
-}
+    }
+
+    @DeleteMapping("/id")
+    public void deletePatient(@PathVariable Long id) {
+        patientService.deletePatient(id);
+    }
 
 }

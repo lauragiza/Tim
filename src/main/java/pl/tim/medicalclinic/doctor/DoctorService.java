@@ -1,12 +1,9 @@
-package pl.tim.medicalclinic.doctor.service;
+package pl.tim.medicalclinic.doctor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
-import pl.tim.medicalclinic.doctor.domain.Doctor;
-import pl.tim.medicalclinic.doctor.domain.dto.DoctorDto;
-import pl.tim.medicalclinic.doctor.repository.DoctorRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -24,27 +21,27 @@ public class DoctorService {
         this.modelMapper = modelMapper;
     }
 
-    public DoctorDto save(DoctorDto doctorDto) {
+    DoctorDto save(DoctorDto doctorDto) {
         Doctor doctor = convertToEntity(doctorDto);
         doctorRepository.save(doctor);
         return convertToDto(doctor);
     }
 
-    public void delete(Long id) {
+    void delete(Long id) {
         doctorRepository.deleteById(id);
     }
 
-    public DoctorDto updateDoctor(DoctorDto doctorDto, Long doctor_id) {
+    DoctorDto updateDoctor(DoctorDto doctorDto, Long doctor_id) {
         Doctor baseDoctor = doctorRepository.getOne(doctor_id);
         baseDoctor.setPhone(doctorDto.getPhone());
         return convertToDto(doctorRepository.save(baseDoctor));
     }
 
-    public List<DoctorDto> findDoctors() {
+    List<DoctorDto> findDoctors() {
         return doctorRepository.findAll().stream().map(DoctorService.this::convertToDto).collect(Collectors.toList());
     }
 
-    public DoctorDto findDoctor(Long id) {
+    DoctorDto findDoctor(Long id) {
         Doctor doctor = doctorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can not find Doctor with ID: " + id));
         return convertToDto(doctor);

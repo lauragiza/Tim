@@ -1,10 +1,16 @@
-package pl.tim.medicalclinic.doctor.domain;
+package pl.tim.medicalclinic.doctor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import pl.tim.medicalclinic.visit.Visit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Setter
 @Data
 @Entity
@@ -27,4 +33,8 @@ public class Doctor {
 
     private String endHour;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    public List<Visit> visits;
 }
