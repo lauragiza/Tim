@@ -40,6 +40,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
+    @Override
+    public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) {
+        web.ignoring().antMatchers("/swagger-resources",
+                "/swagger-resources/configuration/security",
+                "/swagger-resources/configuration/ui",
+                "/swagger*",
+                "/webjars/**",
+                "/v2/api-docs");
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
