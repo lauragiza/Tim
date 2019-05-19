@@ -3,6 +3,7 @@ package pl.tim.medicalclinic.visit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
+import pl.tim.medicalclinic.exception.DoctorAbsentException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,8 +30,8 @@ public class VisitController {
     }
 
     @PostMapping
-    public VisitDto createVisit(@RequestBody @Valid Visit visit) {
-        return visitService.createVisit(visit);
+    public VisitDto createVisit(@RequestBody @Valid VisitDto visitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
+        return visitService.createVisit(visitDto);
     }
 
     @DeleteMapping("/id")

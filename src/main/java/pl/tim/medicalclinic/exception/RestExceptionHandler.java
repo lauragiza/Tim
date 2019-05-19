@@ -15,6 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -28,6 +30,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @ControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+
+    @ResponseBody
+    @ExceptionHandler(DoctorAbsentException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String conflictsHandler(DoctorAbsentException ex) {
+        return ex.getMessage();
+    }
 
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "VACATION")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-class Vacation {
+public class Vacation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

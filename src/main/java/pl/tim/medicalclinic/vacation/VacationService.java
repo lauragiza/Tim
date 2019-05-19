@@ -25,7 +25,7 @@ public class VacationService {
     }
 
     VacationDto findVacation(Long id) throws CustomEntityNotFoundException {
-        Vacation vacation = vacationRepository.findById(id).orElseThrow(()->new CustomEntityNotFoundException(Vacation.class, "id", id.toString()));
+        Vacation vacation = vacationRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(Vacation.class, "id", id.toString()));
         return convertToDto(vacation);
     }
 
@@ -34,7 +34,7 @@ public class VacationService {
     }
 
     void deleteVacation(Long id) throws CustomEntityNotFoundException {
-        Vacation vacation = vacationRepository.findById(id).orElseThrow(()->new CustomEntityNotFoundException(Vacation.class, "id", id.toString()));
+        Vacation vacation = vacationRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(Vacation.class, "id", id.toString()));
         vacationRepository.delete(vacation);
     }
 
