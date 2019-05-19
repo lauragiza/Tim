@@ -12,7 +12,7 @@ class DoctorDto {
     private String lastname;
     private String specialization;
     private String phone;
-    private String startHour;
-    private String endHour;
+    private String startWorkingTime;
+    private String endWorkingTime;
     private List<Visit> visits;
 }

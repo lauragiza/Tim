@@ -29,9 +29,9 @@ public class Doctor {
 
     private String phone;
 
-    private String startHour;
+    private String startWorkingTime;
 
-    private String endHour;
+    private String endWorkingTime;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     @OnDelete(action = OnDeleteAction.CASCADE)
