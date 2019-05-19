@@ -20,22 +20,22 @@ public class VacationController {
     }
 
     @GetMapping
-    public List<VacationDto> findPatients() {
+    public List<VacationDto> findVacations() {
         return vacationService.findVacations();
     }
 
     @GetMapping("/{id}")
-    public VacationDto findPatient(@PathVariable Long id) throws CustomEntityNotFoundException {
+    public VacationDto findVacation(@PathVariable Long id) throws CustomEntityNotFoundException {
         return vacationService.findVacation(id);
     }
 
     @PostMapping
-    public VacationDto addNewPatient(@RequestBody @Valid VacationDto vacationDto) {
+    public VacationDto addVacation(@RequestBody @Valid VacationDto vacationDto) {
         return vacationService.addVacation(vacationDto);
     }
 
     @DeleteMapping("/id")
-    public void deletePatient(@PathVariable Long id) throws CustomEntityNotFoundException {
+    public void deleteVacation(@PathVariable Long id) throws CustomEntityNotFoundException {
         vacationService.deleteVacation(id);
     }
 }
