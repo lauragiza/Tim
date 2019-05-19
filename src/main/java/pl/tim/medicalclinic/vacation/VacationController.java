@@ -3,6 +3,7 @@ package pl.tim.medicalclinic.vacation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,7 +25,7 @@ public class VacationController {
     }
 
     @GetMapping("/{id}")
-    public VacationDto findPatient(@PathVariable Long id) {
+    public VacationDto findPatient(@PathVariable Long id) throws CustomEntityNotFoundException {
         return vacationService.findVacation(id);
     }
 
@@ -34,7 +35,7 @@ public class VacationController {
     }
 
     @DeleteMapping("/id")
-    public void deletePatient(@PathVariable Long id) {
+    public void deletePatient(@PathVariable Long id) throws CustomEntityNotFoundException {
         vacationService.deleteVacation(id);
     }
 }

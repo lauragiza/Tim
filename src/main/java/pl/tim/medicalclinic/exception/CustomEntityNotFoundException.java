@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class EntityNotFoundException extends Exception {
+public class CustomEntityNotFoundException extends Exception {
 
-    public EntityNotFoundException(Class clazz, String... searchParamsMap) {
-        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    public CustomEntityNotFoundException(Class clazz, String... searchParamsMap) {
+        super(CustomEntityNotFoundException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
     }
 
     private static String generateMessage(String entity, Map<String, String> searchParams) {
-        return StringUtils.capitalize(entity) +
+        return StringUtils.capitalize(entity).substring(0,entity.length()-3) +
                 " was not found for parameters " +
                 searchParams;
     }

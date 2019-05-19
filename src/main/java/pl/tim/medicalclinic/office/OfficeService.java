@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +24,9 @@ public class OfficeService {
         return officiesRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    OfficeDto findOffice(Long id) {
-        return convertToDto(officiesRepository.getOne(id));
+    OfficeDto findOffice(Long id) throws CustomEntityNotFoundException {
+        Office office = officiesRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(OfficeDto.class, "id", id.toString()));
+            return convertToDto(office);
     }
 
     Office createOffice(OfficeDto officeDto) {
@@ -33,8 +35,8 @@ public class OfficeService {
         return office;
     }
 
-    void deleteOffice(Long id) {
-        Office office = officiesRepository.getOne(id);
+    void deleteOffice(Long id) throws CustomEntityNotFoundException {
+        Office office = officiesRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(OfficeDto.class, "id", id.toString()));
         officiesRepository.delete(office);
     }
 

@@ -2,6 +2,7 @@ package pl.tim.medicalclinic.visit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,7 +24,7 @@ public class VisitController {
     }
 
     @GetMapping("/{id}")
-    public VisitDto findPatient(@PathVariable Long id) {
+    public VisitDto findPatient(@PathVariable Long id) throws CustomEntityNotFoundException {
         return visitService.findVisit(id);
     }
 
@@ -33,7 +34,7 @@ public class VisitController {
     }
 
     @DeleteMapping("/id")
-    public void deletePatient(@PathVariable Long id) {
+    public void deletePatient(@PathVariable Long id) throws CustomEntityNotFoundException {
         visitService.deleteVisit(id);
     }
 }

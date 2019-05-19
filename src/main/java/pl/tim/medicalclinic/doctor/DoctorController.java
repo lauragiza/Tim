@@ -3,6 +3,7 @@ package pl.tim.medicalclinic.doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,7 +27,7 @@ public class DoctorController {
 
     @DeleteMapping(value = "/{doctor_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("doctor_id") Long doctor_id) {
+    public void delete(@PathVariable("doctor_id") Long doctor_id) throws CustomEntityNotFoundException {
         doctorService.delete(doctor_id);
     }
 
@@ -41,7 +42,7 @@ public class DoctorController {
     }
 
     @GetMapping(value = "/{doctor_id}")
-    public DoctorDto findDoctor(@PathVariable Long doctor_id) {
+    public DoctorDto findDoctor(@PathVariable Long doctor_id) throws CustomEntityNotFoundException {
         return doctorService.findDoctor(doctor_id);
     }
 

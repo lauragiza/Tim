@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,17 +25,18 @@ public class PatientService {
         return repository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    PatientDto findPatient(Long id) {
-        return convertToDto(repository.getOne(id));
+    PatientDto findPatient(Long id) throws CustomEntityNotFoundException {
+        Patient patient = repository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(Patient.class, "id", id.toString()));
+        return convertToDto(patient);
     }
 
     Patient addNewPatient(PatientDto patientDto) {
         return repository.save(convertToEntity(patientDto));
     }
 
-    void deletePatient(Long id) {
-        Patient patientToRemove = repository.findById(id).get();
-        repository.delete(patientToRemove);
+    void deletePatient(Long id) throws CustomEntityNotFoundException {
+        Patient patient = repository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(Patient.class, "id", id.toString()));
+        repository.delete(patient);
     }
 
     private PatientDto convertToDto(Patient patient) {

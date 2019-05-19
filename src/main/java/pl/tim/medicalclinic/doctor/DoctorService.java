@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.print.Doc;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,9 @@ public class DoctorService {
         return convertToDto(doctor);
     }
 
-    void delete(Long id) {
-        doctorRepository.deleteById(id);
+    void delete(Long id) throws CustomEntityNotFoundException {
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(()-> new CustomEntityNotFoundException(Doctor.class, "id", id.toString()));
+        doctorRepository.delete(doctor);
     }
 
     DoctorDto updateDoctor(DoctorDto doctorDto, Long doctor_id) {
@@ -41,9 +44,9 @@ public class DoctorService {
         return doctorRepository.findAll().stream().map(DoctorService.this::convertToDto).collect(Collectors.toList());
     }
 
-    DoctorDto findDoctor(Long id) {
+    DoctorDto findDoctor(Long id) throws CustomEntityNotFoundException {
         Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can not find Doctor with ID: " + id));
+                .orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", id.toString()));
         return convertToDto(doctor);
     }
 

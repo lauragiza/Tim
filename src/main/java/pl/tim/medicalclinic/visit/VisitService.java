@@ -3,6 +3,7 @@ package pl.tim.medicalclinic.visit;
 import org.modelmapper.ModelMapper;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,8 +19,9 @@ public class VisitService {
         this.modelMapper = modelMapper;
     }
 
-    VisitDto findVisit(Long id) {
-        return convertToDto(visitRepository.getOne(id));
+    VisitDto findVisit(Long id) throws CustomEntityNotFoundException {
+        Visit visit = visitRepository.findById(id).orElseThrow(()->new CustomEntityNotFoundException(Visit.class, "id", id.toString()));
+        return convertToDto(visit);
     }
 
     List<VisitDto> findVisits(){
@@ -31,8 +33,8 @@ public class VisitService {
         return convertToDto(saved);
     }
 
-    void deleteVisit(Long id){
-        Visit visit =visitRepository.getOne(id);
+    void deleteVisit(Long id) throws CustomEntityNotFoundException {
+        Visit visit = visitRepository.findById(id).orElseThrow(()->new CustomEntityNotFoundException(Visit.class, "id", id.toString()));
         visitRepository.delete(visit);
     }
 

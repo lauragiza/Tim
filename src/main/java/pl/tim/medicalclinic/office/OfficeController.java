@@ -2,6 +2,7 @@ package pl.tim.medicalclinic.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,7 +19,7 @@ public class OfficeController {
     }
 
     @GetMapping(value = "/{office_id}")
-    public OfficeDto findOffice(@PathVariable("office_id") Long office_id) {
+    public OfficeDto findOffice(@PathVariable("office_id") Long office_id) throws CustomEntityNotFoundException {
         return officeService.findOffice(office_id);
     }
 
@@ -33,7 +34,7 @@ public class OfficeController {
     }
 
     @DeleteMapping(value = "/{office_id}")
-    public void deleteOffice(@PathVariable("office_id") Long office_id) {
+    public void deleteOffice(@PathVariable("office_id") Long office_id) throws CustomEntityNotFoundException {
         officeService.deleteOffice(office_id);
     }
 }
