@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.print.Doc;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +29,24 @@ public class DoctorService {
     }
 
     void delete(Long id) throws CustomEntityNotFoundException {
-        Doctor doctor = doctorRepository.findById(id).orElseThrow(()-> new CustomEntityNotFoundException(Doctor.class, "id", id.toString()));
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", id.toString()));
         doctorRepository.delete(doctor);
     }
 
-    DoctorDto updateDoctor(DoctorDto doctorDto, Long doctor_id) {
-        Doctor baseDoctor = doctorRepository.getOne(doctor_id);
-        baseDoctor.setPhone(doctorDto.getPhone());
+    DoctorDto updateDoctor(DoctorDto doctorDto, Long doctor_id) throws CustomEntityNotFoundException {
+        Doctor baseDoctor;
+        try {
+            baseDoctor = doctorRepository.getOne(doctor_id);
+        } catch (EntityNotFoundException e) {
+            throw new CustomEntityNotFoundException(Doctor.class, "id", doctor_id.toString());
+        }
+        if (!baseDoctor.getPhone().equals(doctorDto.getPhone()))
+            baseDoctor.setPhone(doctorDto.getPhone());
+        if (!baseDoctor.getStartWorkingTime().equals(doctorDto.getStartWorkingTime()))
+            baseDoctor.setStartWorkingTime(doctorDto.getStartWorkingTime());
+        if (!baseDoctor.getEndWorkingTime().equals(doctorDto.getEndWorkingTime()))
+            baseDoctor.setEndWorkingTime(doctorDto.getEndWorkingTime());
+            
         return convertToDto(doctorRepository.save(baseDoctor));
     }
 

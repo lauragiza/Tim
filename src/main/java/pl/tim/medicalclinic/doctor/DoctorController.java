@@ -32,7 +32,7 @@ public class DoctorController {
     }
 
     @PutMapping(value = "/{doctor_id}/update")
-    public DoctorDto updateDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long doctor_id) {
+    public DoctorDto updateDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long doctor_id) throws CustomEntityNotFoundException {
         return doctorService.updateDoctor(doctorDto, doctor_id);
     }
 

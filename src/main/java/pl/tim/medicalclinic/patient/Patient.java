@@ -25,9 +25,9 @@ public class Patient {
     @NonNull
     String name;
     @NonNull
-    String surname;
+    String lastName;
     @Email
-    String email;
+    String mail;
     @NotNull
     String pesel;
 
