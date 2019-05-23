@@ -37,4 +37,8 @@ public class OfficeController {
     public void deleteOffice(@PathVariable("office_id") Long office_id) throws CustomEntityNotFoundException {
         officeService.deleteOffice(office_id);
     }
+    @PutMapping (value = "/office_id")
+    public void updateOffice(@PathVariable Long id, @RequestBody Office office) throws CustomEntityNotFoundException {
+        officeService.updateoOffice(id,office);
+    }
 }

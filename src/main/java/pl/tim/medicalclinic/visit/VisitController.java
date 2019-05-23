@@ -25,7 +25,7 @@ public class VisitController {
     }
 
     @GetMapping("/{id}")
-    public VisitDto findPatient(@PathVariable Long id) throws CustomEntityNotFoundException {
+    public VisitDto findVisit(@PathVariable Long id) throws CustomEntityNotFoundException {
         return visitService.findVisit(id);
     }
 
@@ -35,7 +35,7 @@ public class VisitController {
     }
 
     @DeleteMapping("/id")
-    public void deletePatient(@PathVariable Long id) throws CustomEntityNotFoundException {
+    public void deleteVisit(@PathVariable Long id) throws CustomEntityNotFoundException {
         visitService.deleteVisit(id);
     }
 }

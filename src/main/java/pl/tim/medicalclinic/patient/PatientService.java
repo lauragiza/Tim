@@ -6,6 +6,7 @@ import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,5 +46,28 @@ public class PatientService {
 
     private Patient convertToEntity(PatientDto patientDto) throws ParseException {
         return modelMapper.map(patientDto, Patient.class);
+    }
+
+    void updatePatient(Long id, Patient patient) throws CustomEntityNotFoundException {
+        Patient patientDb;
+        try {
+            patientDb = repository.getOne(id);
+        } catch (EntityNotFoundException e) {
+            throw new CustomEntityNotFoundException(Patient.class, "id", patient.id.toString());
+        }
+        if (!patient.email.equals(patientDb.email)) {
+            patientDb.setEmail(patient.email);
+        }
+        if (!patient.street.equals(patientDb.street)) {
+            patientDb.setStreet(patient.street);
+        }
+        if (!patient.town.equals(patientDb.town)) {
+            patientDb.setTown(patient.town);
+        }
+        if (!patient.code.equals(patientDb.code)) {
+            patientDb.setCode(patient.code);
+        }
+
+        repository.save(patientDb);
     }
 }

@@ -36,5 +36,9 @@ public class PatientController {
     public void deletePatient(@PathVariable Long id) throws CustomEntityNotFoundException {
         patientService.deletePatient(id);
     }
+    @PutMapping("/id")
+    public void updatePatient(@PathVariable Long id, @RequestBody Patient patient) throws CustomEntityNotFoundException {
+        patientService.updatePatient(id, patient);
+    }
 
 }

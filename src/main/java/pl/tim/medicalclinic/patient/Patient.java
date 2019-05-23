@@ -8,6 +8,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import pl.tim.medicalclinic.visit.Visit;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -24,6 +26,14 @@ public class Patient {
     String name;
     @NonNull
     String surname;
+    @Email
+    String email;
+    @NotNull
+    String pesel;
+
+    String street;
+    String town;
+    String code;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @OnDelete(action = OnDeleteAction.CASCADE)

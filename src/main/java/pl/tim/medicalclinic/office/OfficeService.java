@@ -6,6 +6,7 @@ import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class OfficeService {
 
     OfficeDto findOffice(Long id) throws CustomEntityNotFoundException {
         Office office = officiesRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(OfficeDto.class, "id", id.toString()));
-            return convertToDto(office);
+        return convertToDto(office);
     }
 
     Office createOffice(OfficeDto officeDto) {
@@ -49,6 +50,17 @@ public class OfficeService {
         return modelMapper.map(officeDto, Office.class);
     }
 
+    void updateoOffice(Long id, Office office) throws CustomEntityNotFoundException {
+        Office officeDb;
+        try {
+            officeDb = officiesRepository.getOne(id);
+        } catch (EntityNotFoundException e) {
+            throw new CustomEntityNotFoundException(Office.class, "id", office.id.toString());
+        }
+        if (!office.name.equals(officeDb.name)) {
+            officeDb.setName(office.name);
+        }
+    }
 }
 
 
