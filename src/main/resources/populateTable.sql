@@ -1,9 +1,9 @@
-INSERT INTO PATIENT (name, surname) VALUES ('Olga','Nowak');
-INSERT INTO PATIENT (name, surname) VALUES ('Maciej','Mazur');
-INSERT INTO PATIENT (name, surname) VALUES ('Katarzyna','Tomczyk');
-INSERT INTO PATIENT (name, surname) VALUES ('Anna','Kot');
-INSERT INTO PATIENT (name, surname) VALUES ('Marcin','Ambroziak');
-INSERT INTO PATIENT (name, surname) VALUES ('Łukasz','Tinek');
+INSERT INTO PATIENT (name, last_name, pesel) VALUES ('Olga','Nowak' , 2313123123);
+INSERT INTO PATIENT (name, last_name, pesel) VALUES ('Maciej','Mazur' , 2313123123);
+INSERT INTO PATIENT (name, last_name, pesel) VALUES ('Katarzyna','Tomczyk' , 2313123123);
+INSERT INTO PATIENT (name, last_name, pesel) VALUES ('Anna','Kot' , 2313123123);
+INSERT INTO PATIENT (name, last_name, pesel) VALUES ('Marcin','Ambroziak' , 2313123123);
+INSERT INTO PATIENT (name, last_name, pesel) VALUES ('Łukasz','Tinek' , 2313123123);
 
 INSERT INTO DOCTOR (name, lastname, specialization, phone, start_working_time,end_working_time) VALUES ('Tadeusz','Linek','Pediatra','523456789','8:00','15:00');
 INSERT INTO DOCTOR (name, lastname, specialization, phone, start_working_time,end_working_time) VALUES ('Anna','Karmen','Chirurg','523456781','8:00','16:00');

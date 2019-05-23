@@ -46,7 +46,7 @@ public class DoctorService {
             baseDoctor.setStartWorkingTime(doctorDto.getStartWorkingTime());
         if (!baseDoctor.getEndWorkingTime().equals(doctorDto.getEndWorkingTime()))
             baseDoctor.setEndWorkingTime(doctorDto.getEndWorkingTime());
-            
+
         return convertToDto(doctorRepository.save(baseDoctor));
     }
 

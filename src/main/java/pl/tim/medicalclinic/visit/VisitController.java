@@ -20,8 +20,12 @@ public class VisitController {
     private final VisitService visitService;
 
     @GetMapping
-    public List<VisitDto> findVisits() {
-        return visitService.findVisits();
+    public List<Visit> findVisits(@RequestParam(name = "patientId", required = false, defaultValue = "") String patientId,
+                                  @RequestParam(name = "doctorId", required = false, defaultValue = "") String doctorId,
+                                  @RequestParam(name = "officeId", required = false, defaultValue = "") String officeId) {
+
+        VisitSearchDto searchDto = new VisitSearchDto(patientId, officeId, doctorId);
+        return visitService.findVisits(searchDto);
     }
 
     @GetMapping("/{id}")
