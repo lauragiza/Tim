@@ -8,4 +8,5 @@ import java.time.LocalDate;
 public class VacationDto {
     public Long doctorId;
     public LocalDate vacationDay;
+    public Long vacationId;
 }

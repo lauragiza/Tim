@@ -24,9 +24,10 @@ public class VacationService {
         return vacationRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    VacationDto findVacation(Long id) throws CustomEntityNotFoundException {
-        Vacation vacation = vacationRepository.findById(id).orElseThrow(() -> new CustomEntityNotFoundException(Vacation.class, "id", id.toString()));
-        return convertToDto(vacation);
+    List<VacationDto> findVacation(Long doctorId) {
+        return vacationRepository.findAll().stream().filter(x -> x.getDoctor().getId().equals(doctorId))
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     VacationDto addVacation(VacationDto vacationDto) {

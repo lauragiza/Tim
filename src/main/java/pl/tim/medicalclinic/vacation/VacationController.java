@@ -24,9 +24,9 @@ public class VacationController {
         return vacationService.findVacations();
     }
 
-    @GetMapping("/{id}")
-    public VacationDto findVacation(@PathVariable Long id) throws CustomEntityNotFoundException {
-        return vacationService.findVacation(id);
+    @GetMapping("/{doctorId}")
+    public List<VacationDto> findVacation(@PathVariable Long doctorId) {
+        return vacationService.findVacation(doctorId);
     }
 
     @PostMapping
