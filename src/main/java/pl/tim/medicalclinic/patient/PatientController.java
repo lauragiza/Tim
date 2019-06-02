@@ -2,6 +2,7 @@ package pl.tim.medicalclinic.patient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.tim.medicalclinic.exception.AlreadyExistsException;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class PatientController {
     }
 
     @PostMapping
-    public Patient addNewPatient(@RequestBody @Valid Patient patient) {
+    public PatientDto addNewPatient(@RequestBody @Valid Patient patient) throws AlreadyExistsException {
         return patientService.addNewPatient(patient);
     }
 

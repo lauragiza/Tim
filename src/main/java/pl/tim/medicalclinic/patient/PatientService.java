@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.AlreadyExistsException;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
@@ -31,9 +32,13 @@ public class PatientService {
         return convertToDto(patient);
     }
 
-    Patient addNewPatient(Patient patient) {
-        //TODO add if patient exist
-        return repository.save(patient);
+    PatientDto addNewPatient(Patient patient) throws AlreadyExistsException {
+        if (repository.existsByMail(patient.getName()))
+            throw new AlreadyExistsException(Patient.class, patient.getName());
+        else if (repository.existsByPesel(patient.getPesel()))
+            throw new AlreadyExistsException(Patient.class, patient.getPesel());
+        else
+            return convertToDto(repository.save(patient));
     }
 
     void deletePatient(Long id) throws CustomEntityNotFoundException {

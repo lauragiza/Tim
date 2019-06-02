@@ -29,7 +29,7 @@ public class VacationController {
     }
 
     @PostMapping
-    public Vacation addVacation(@RequestBody NewVacationDto newVacationDto) {
+    public VacationListDto addVacation(@RequestBody NewVacationDto newVacationDto) {
         return vacationService.addVacation(newVacationDto);
     }
 

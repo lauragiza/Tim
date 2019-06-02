@@ -2,6 +2,7 @@ package pl.tim.medicalclinic.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.AlreadyExistsException;
 
 @Service
 public class UserService {
@@ -15,8 +16,12 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+    void save(User user) throws AlreadyExistsException {
+        if (userRepository.existsByEmail(user.getEmail()))
+            throw new AlreadyExistsException(User.class,user.getEmail());
+        else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        }
     }
 }

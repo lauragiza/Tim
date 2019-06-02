@@ -30,8 +30,8 @@ public class VacationService {
                 .collect(Collectors.toList());
     }
 
-    Vacation addVacation(NewVacationDto newVacationDto) {
-        return vacationRepository.save(convertToEntity(newVacationDto));
+    VacationListDto addVacation(NewVacationDto newVacationDto) {
+        return convertToDto(vacationRepository.save(convertToEntity(newVacationDto)));
     }
 
     void deleteVacation(Long id) throws CustomEntityNotFoundException {

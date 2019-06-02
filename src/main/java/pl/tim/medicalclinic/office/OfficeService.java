@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import pl.tim.medicalclinic.exception.AlreadyExistsException;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
@@ -30,8 +31,11 @@ public class OfficeService {
         return convertToDto(office);
     }
 
-    Office createOffice(Office office) {
-        return officiesRepository.save(office);
+    OfficeDto createOffice(Office office) throws AlreadyExistsException {
+        if (officiesRepository.existsByName(office.getName()))
+            throw new AlreadyExistsException(Office.class,office.getName());
+        else
+        return convertToDto(officiesRepository.save(office));
     }
 
     void deleteOffice(Long id) throws CustomEntityNotFoundException {

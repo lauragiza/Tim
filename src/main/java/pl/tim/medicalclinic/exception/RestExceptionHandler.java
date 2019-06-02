@@ -39,6 +39,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ex.getMessage();
     }
 
+
+    @ResponseBody
+    @ExceptionHandler(AlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String conflictsHandler(AlreadyExistsException ex) {
+        return ex.getMessage();
+    }
+
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
      *

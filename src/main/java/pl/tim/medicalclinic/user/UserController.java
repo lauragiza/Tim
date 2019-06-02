@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.tim.medicalclinic.exception.AlreadyExistsException;
 
 @RestController
 @RequestMapping("/users")
@@ -16,7 +17,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public void signUp(@RequestBody User user){
+    public void signUp(@RequestBody User user) throws AlreadyExistsException {
         userService.save(user);
     }
 }

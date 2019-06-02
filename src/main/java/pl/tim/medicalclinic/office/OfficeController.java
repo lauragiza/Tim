@@ -2,6 +2,7 @@ package pl.tim.medicalclinic.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.tim.medicalclinic.exception.AlreadyExistsException;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
 import javax.validation.Valid;
@@ -29,7 +30,7 @@ public class OfficeController {
     }
 
     @PostMapping
-    public Office createOffice(@RequestBody @Valid Office office) {
+    public OfficeDto createOffice(@RequestBody @Valid Office office) throws AlreadyExistsException {
         return officeService.createOffice(office);
     }
 
