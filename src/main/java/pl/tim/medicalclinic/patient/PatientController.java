@@ -22,23 +22,24 @@ public class PatientController {
         return patientService.findPatients();
     }
 
-    @GetMapping("/{id}")
-    public PatientDto findPatient(@PathVariable Long id) throws CustomEntityNotFoundException {
-        return patientService.findPatient(id);
+    @GetMapping("/{patientId}")
+    public PatientDto findPatient(@PathVariable Long patientId) throws CustomEntityNotFoundException {
+        return patientService.findPatient(patientId);
     }
 
     @PostMapping
-    public Patient addNewPatient(@RequestBody @Valid PatientDto patient) {
+    public Patient addNewPatient(@RequestBody @Valid Patient patient) {
         return patientService.addNewPatient(patient);
     }
 
-    @DeleteMapping("/id")
-    public void deletePatient(@PathVariable Long id) throws CustomEntityNotFoundException {
-        patientService.deletePatient(id);
+    @DeleteMapping("/{patientId}")
+    public void deletePatient(@PathVariable Long patientId) throws CustomEntityNotFoundException {
+        patientService.deletePatient(patientId);
     }
-    @PutMapping("/id")
-    public void updatePatient(@PathVariable Long id, @RequestBody Patient patient) throws CustomEntityNotFoundException {
-        patientService.updatePatient(id, patient);
+
+    @PutMapping("/{patientId}")
+    public void updatePatient(@PathVariable Long patientId, @RequestBody Patient patient) throws CustomEntityNotFoundException {
+        patientService.updatePatient(patientId, patient);
     }
 
 }

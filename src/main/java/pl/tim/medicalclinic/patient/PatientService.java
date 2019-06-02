@@ -31,8 +31,9 @@ public class PatientService {
         return convertToDto(patient);
     }
 
-    Patient addNewPatient(PatientDto patientDto) {
-        return repository.save(convertToEntity(patientDto));
+    Patient addNewPatient(Patient patient) {
+        //TODO add if patient exist
+        return repository.save(patient);
     }
 
     void deletePatient(Long id) throws CustomEntityNotFoundException {

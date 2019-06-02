@@ -5,8 +5,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class VacationDto {
+public class VacationListDto {
     public Long doctorId;
-    public LocalDate vacationDay;
     public Long vacationId;
+    public LocalDate vacationDay;
 }

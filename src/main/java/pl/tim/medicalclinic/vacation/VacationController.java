@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vacation")
+@RequestMapping("/vacations")
 public class VacationController {
 
     private VacationService vacationService;
@@ -20,22 +19,22 @@ public class VacationController {
     }
 
     @GetMapping
-    public List<VacationDto> findVacations() {
+    public List<VacationListDto> findVacations() {
         return vacationService.findVacations();
     }
 
-    @GetMapping("/{doctorId}")
-    public List<VacationDto> findVacation(@PathVariable Long doctorId) {
-        return vacationService.findVacation(doctorId);
+    @GetMapping("/{vacationId}")
+    public List<VacationListDto> findVacation(@PathVariable Long vacationId) {
+        return vacationService.findVacation(vacationId);
     }
 
     @PostMapping
-    public VacationDto addVacation(@RequestBody @Valid VacationDto vacationDto) {
-        return vacationService.addVacation(vacationDto);
+    public Vacation addVacation(@RequestBody NewVacationDto newVacationDto) {
+        return vacationService.addVacation(newVacationDto);
     }
 
     @DeleteMapping("/id")
-    public void deleteVacation(@PathVariable Long id) throws CustomEntityNotFoundException {
-        vacationService.deleteVacation(id);
+    public void deleteVacation(@PathVariable Long vacationId) throws CustomEntityNotFoundException {
+        vacationService.deleteVacation(vacationId);
     }
 }

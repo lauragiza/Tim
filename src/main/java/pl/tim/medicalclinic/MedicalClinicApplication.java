@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -33,6 +34,21 @@ public class MedicalClinicApplication {
             }
         };
 
+        Provider<LocalDate> dateProvider = new AbstractProvider<LocalDate>() {
+            @Override
+            public LocalDate get() {
+                return LocalDate.now();
+            }
+        };
+        Converter<String, LocalDate> toStringLocalDate = new AbstractConverter<String, LocalDate>() {
+            @Override
+            protected LocalDate convert(String source) {
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return LocalDate.parse(source, format);
+            }
+        };
+
+
         Converter<String, LocalDateTime> toStringDate = new AbstractConverter<String, LocalDateTime>() {
             @Override
             protected LocalDateTime convert(String source) {
@@ -40,9 +56,12 @@ public class MedicalClinicApplication {
                 return LocalDateTime.parse(source, format);
             }
         };
+        modelmapper.createTypeMap(String.class, LocalDate.class);
         modelmapper.createTypeMap(String.class, LocalDateTime.class);
         modelmapper.addConverter(toStringDate);
+        modelmapper.addConverter(toStringDate);
         modelmapper.getTypeMap(String.class, LocalDateTime.class).setProvider(localDateProvider);
+        modelmapper.getTypeMap(String.class, LocalDate.class).setProvider(dateProvider);
         return modelmapper;
     }
 }

@@ -30,10 +30,8 @@ public class OfficeService {
         return convertToDto(office);
     }
 
-    Office createOffice(OfficeDto officeDto) {
-        Office office = convertToEntity(officeDto);
-        officiesRepository.save(convertToEntity(officeDto));
-        return office;
+    Office createOffice(Office office) {
+        return officiesRepository.save(office);
     }
 
     void deleteOffice(Long id) throws CustomEntityNotFoundException {

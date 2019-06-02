@@ -20,7 +20,7 @@ public class VisitController {
     private final VisitService visitService;
 
     @GetMapping
-    public List<Visit> findVisits(@RequestParam(name = "patientId", required = false, defaultValue = "") String patientId,
+    public List<VisitDto> findVisits(@RequestParam(name = "patientId", required = false, defaultValue = "") String patientId,
                                   @RequestParam(name = "doctorId", required = false, defaultValue = "") String doctorId,
                                   @RequestParam(name = "officeId", required = false, defaultValue = "") String officeId) {
 
@@ -28,18 +28,18 @@ public class VisitController {
         return visitService.findVisits(searchDto);
     }
 
-    @GetMapping("/{id}")
-    public VisitDto findVisit(@PathVariable Long id) throws CustomEntityNotFoundException {
-        return visitService.findVisit(id);
+    @GetMapping("/{visitId}")
+    public VisitDto findVisit(@PathVariable Long visitId) throws CustomEntityNotFoundException {
+        return visitService.findVisit(visitId);
     }
 
     @PostMapping
-    public VisitDto createVisit(@RequestBody @Valid VisitDto visitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
-        return visitService.createVisit(visitDto);
+    public Visit createVisit(@RequestBody @Valid Visit visit) throws DoctorAbsentException, CustomEntityNotFoundException {
+        return visitService.createVisit(visit);
     }
 
-    @DeleteMapping("/id")
-    public void deleteVisit(@PathVariable Long id) throws CustomEntityNotFoundException {
-        visitService.deleteVisit(id);
+    @DeleteMapping("/visitId")
+    public void deleteVisit(@PathVariable Long visitId) throws CustomEntityNotFoundException {
+        visitService.deleteVisit(visitId);
     }
 }

@@ -20,18 +20,18 @@ public class VacationService {
     }
 
 
-    List<VacationDto> findVacations() {
+    List<VacationListDto> findVacations() {
         return vacationRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    List<VacationDto> findVacation(Long doctorId) {
+    List<VacationListDto> findVacation(Long doctorId) {
         return vacationRepository.findAll().stream().filter(x -> x.getDoctor().getId().equals(doctorId))
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    VacationDto addVacation(VacationDto vacationDto) {
-        return convertToDto(vacationRepository.save(convertToEntity(vacationDto)));
+    Vacation addVacation(NewVacationDto newVacationDto) {
+        return vacationRepository.save(convertToEntity(newVacationDto));
     }
 
     void deleteVacation(Long id) throws CustomEntityNotFoundException {
@@ -39,12 +39,12 @@ public class VacationService {
         vacationRepository.delete(vacation);
     }
 
-    private VacationDto convertToDto(Vacation vacation) {
-        return modelMapper.map(vacation, VacationDto.class);
+    private VacationListDto convertToDto(Vacation vacation) {
+        return modelMapper.map(vacation, VacationListDto.class);
     }
 
-    private Vacation convertToEntity(VacationDto vacationDto) throws ParseException {
-        return modelMapper.map(vacationDto, Vacation.class);
+    private Vacation convertToEntity(NewVacationDto newVacationDto) throws ParseException {
+        return modelMapper.map(newVacationDto, Vacation.class);
     }
 
 

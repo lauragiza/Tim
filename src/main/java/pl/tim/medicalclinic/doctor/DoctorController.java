@@ -25,15 +25,15 @@ public class DoctorController {
         return doctorService.save(doctorDto);
     }
 
-    @DeleteMapping(value = "/{doctor_id}")
+    @DeleteMapping(value = "/{doctorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("doctor_id") Long doctor_id) throws CustomEntityNotFoundException {
-        doctorService.delete(doctor_id);
+    public void delete(@PathVariable("doctorId") Long doctorId) throws CustomEntityNotFoundException {
+        doctorService.delete(doctorId);
     }
 
-    @PutMapping(value = "/{doctor_id}/update")
-    public DoctorDto updateDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long doctor_id) throws CustomEntityNotFoundException {
-        return doctorService.updateDoctor(doctorDto, doctor_id);
+    @PutMapping(value = "/{doctorId}")
+    public DoctorDto updateDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long doctorId) throws CustomEntityNotFoundException {
+        return doctorService.updateDoctor(doctorDto, doctorId);
     }
 
     @GetMapping()
@@ -41,9 +41,9 @@ public class DoctorController {
         return doctorService.findDoctors();
     }
 
-    @GetMapping(value = "/{doctor_id}")
-    public DoctorDto findDoctor(@PathVariable Long doctor_id) throws CustomEntityNotFoundException {
-        return doctorService.findDoctor(doctor_id);
+    @GetMapping(value = "/{doctorId}")
+    public DoctorDto findDoctor(@PathVariable Long doctorId) throws CustomEntityNotFoundException {
+        return doctorService.findDoctor(doctorId);
     }
 
 

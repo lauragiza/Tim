@@ -18,9 +18,9 @@ public class OfficeController {
         this.officeService = officeService;
     }
 
-    @GetMapping(value = "/{office_id}")
-    public OfficeDto findOffice(@PathVariable("office_id") Long office_id) throws CustomEntityNotFoundException {
-        return officeService.findOffice(office_id);
+    @GetMapping(value = "/{officeId}")
+    public OfficeDto findOffice(@PathVariable("officeId") Long officeId) throws CustomEntityNotFoundException {
+        return officeService.findOffice(officeId);
     }
 
     @GetMapping
@@ -29,16 +29,16 @@ public class OfficeController {
     }
 
     @PostMapping
-    public Office createOffice(@RequestBody @Valid OfficeDto officeDto) {
-        return officeService.createOffice(officeDto);
+    public Office createOffice(@RequestBody @Valid Office office) {
+        return officeService.createOffice(office);
     }
 
-    @DeleteMapping(value = "/{office_id}")
-    public void deleteOffice(@PathVariable("office_id") Long office_id) throws CustomEntityNotFoundException {
-        officeService.deleteOffice(office_id);
+    @DeleteMapping(value = "/{officeId}")
+    public void deleteOffice(@PathVariable("officeId") Long officeId) throws CustomEntityNotFoundException {
+        officeService.deleteOffice(officeId);
     }
-    @PutMapping (value = "/office_id")
-    public void updateOffice(@PathVariable Long id, @RequestBody Office office) throws CustomEntityNotFoundException {
-        officeService.updateoOffice(id,office);
+    @PutMapping (value = "/officeId")
+    public void updateOffice(@PathVariable Long officeId, @RequestBody Office office) throws CustomEntityNotFoundException {
+        officeService.updateoOffice(officeId,office);
     }
 }

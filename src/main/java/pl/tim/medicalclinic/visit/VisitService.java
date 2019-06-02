@@ -15,6 +15,7 @@ import pl.tim.medicalclinic.patient.Patient;
 import pl.tim.medicalclinic.vacation.Vacation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VisitService {
@@ -50,24 +51,23 @@ public class VisitService {
         return specification;
     }
 
-    List<Visit> findVisits(VisitSearchDto searchDto) {
-        return visitRepository.findAll(completeSpecification(searchDto));
+    List<VisitDto> findVisits(VisitSearchDto searchDto) {
+        List<Visit> visits = visitRepository.findAll(completeSpecification(searchDto));
+        return visits.stream().map(x -> convertToDto(x)).collect(Collectors.toList());
 
     }
 
-    VisitDto createVisit(VisitDto visitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
-        Doctor doctor = doctorRepository.findById(visitDto.getDoctorId())
-                .orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", visitDto.getDoctorId().toString()));
+    Visit createVisit(Visit visit) throws DoctorAbsentException, CustomEntityNotFoundException {
+        Doctor doctor = doctorRepository.findById(visit.getDoctor().getId())
+                .orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", visit.getDoctor().getId().toString()));
         List<Vacation> doctorAbsentDays = doctor.getVacations();
         for (Vacation vacation : doctorAbsentDays) {
-            if (vacation.getVacationDay().equals(visitDto.getDate().toLocalDate())) {
+            if (vacation.getVacationDay().equals(visit.getDate().toLocalDate())) {
                 throw new DoctorAbsentException(Doctor.class, vacation.getVacationDay());
             }
         }
-
-        Visit visit = convertToEntity(visitDto);
         Visit saved = visitRepository.save(visit);
-        return convertToDto(saved);
+        return saved;
     }
 
     void deleteVisit(Long id) throws CustomEntityNotFoundException {
