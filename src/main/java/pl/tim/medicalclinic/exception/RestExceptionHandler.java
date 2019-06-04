@@ -47,6 +47,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ex.getMessage();
     }
 
+    @ResponseBody
+    @ExceptionHandler(CustomIncorrectEntityException.class)
+    @ResponseStatus(BAD_REQUEST)
+    String incorrectEntityHandle(CustomIncorrectEntityException ex) {
+        return ex.getMessage();
+    }
+
+
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
      *

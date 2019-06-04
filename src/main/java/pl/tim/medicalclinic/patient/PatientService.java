@@ -6,6 +6,7 @@ import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 import pl.tim.medicalclinic.exception.AlreadyExistsException;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
+import pl.tim.medicalclinic.exception.CustomIncorrectEntityException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -32,11 +33,13 @@ public class PatientService {
         return convertToDto(patient);
     }
 
-    PatientDto addNewPatient(Patient patient) throws AlreadyExistsException {
+    PatientDto addNewPatient(Patient patient) throws AlreadyExistsException, CustomIncorrectEntityException {
         if (repository.existsByMail(patient.getName()))
             throw new AlreadyExistsException(Patient.class, patient.getName());
         else if (repository.existsByPesel(patient.getPesel()))
             throw new AlreadyExistsException(Patient.class, patient.getPesel());
+        else if(!PeselValidator.isValid(patient.pesel))
+            throw new CustomIncorrectEntityException("PESEL");
         else
             return convertToDto(repository.save(patient));
     }

@@ -11,7 +11,9 @@ import pl.tim.medicalclinic.doctor.DoctorRepository;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 import pl.tim.medicalclinic.exception.DoctorAbsentException;
 import pl.tim.medicalclinic.office.Office;
+import pl.tim.medicalclinic.office.OfficeRepository;
 import pl.tim.medicalclinic.patient.Patient;
+import pl.tim.medicalclinic.patient.PatientRepository;
 import pl.tim.medicalclinic.vacation.Vacation;
 
 import java.util.List;
@@ -21,11 +23,15 @@ import java.util.stream.Collectors;
 public class VisitService {
 
     private final VisitRepository visitRepository;
+    private final OfficeRepository officeRepository;
+    private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final ModelMapper modelMapper;
 
-    public VisitService(VisitRepository visitRepository, DoctorRepository doctorRepository, ModelMapper modelMapper) {
+    public VisitService(VisitRepository visitRepository, OfficeRepository officeRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, ModelMapper modelMapper) {
         this.visitRepository = visitRepository;
+        this.officeRepository = officeRepository;
+        this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.modelMapper = modelMapper;
     }
@@ -57,17 +63,21 @@ public class VisitService {
 
     }
 
-    Visit createVisit(Visit visit) throws DoctorAbsentException, CustomEntityNotFoundException {
-        Doctor doctor = doctorRepository.findById(visit.getDoctor().getId())
-                .orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", visit.getDoctor().getId().toString()));
+    VisitDto createVisit(NewVisitDto newVisitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
+        Doctor doctor = doctorRepository.findById(newVisitDto.getDoctorId())
+                .orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", newVisitDto.getDoctorId().toString()));
+        officeRepository.findById(newVisitDto.getOfficeId())
+                .orElseThrow(() -> new CustomEntityNotFoundException(Office.class, "id", newVisitDto.getOfficeId().toString()));
+        patientRepository.findById(newVisitDto.getPatientId())
+                .orElseThrow(() -> new CustomEntityNotFoundException(Patient.class, "id", newVisitDto.getPatientId().toString()));
         List<Vacation> doctorAbsentDays = doctor.getVacations();
         for (Vacation vacation : doctorAbsentDays) {
-            if (vacation.getVacationDay().equals(visit.getDate().toLocalDate())) {
+            if (vacation.getVacationDay().equals(newVisitDto.getDate().toLocalDate())) {
                 throw new DoctorAbsentException(Doctor.class, vacation.getVacationDay());
             }
         }
-        Visit saved = visitRepository.save(visit);
-        return saved;
+        Visit saved = visitRepository.save(convertToEntity(newVisitDto));
+        return convertToDto(saved);
     }
 
     void deleteVisit(Long id) throws CustomEntityNotFoundException {
@@ -80,8 +90,8 @@ public class VisitService {
         return modelMapper.map(visit, VisitDto.class);
     }
 
-    private Visit convertToEntity(VisitDto patientDto) throws ParseException {
-        return modelMapper.map(patientDto, Visit.class);
+    private Visit convertToEntity(NewVisitDto newVisitDto) throws ParseException {
+        return modelMapper.map(newVisitDto, Visit.class);
     }
 
 }

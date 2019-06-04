@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.tim.medicalclinic.exception.AlreadyExistsException;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
+import pl.tim.medicalclinic.exception.CustomIncorrectEntityException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,7 +30,7 @@ public class PatientController {
     }
 
     @PostMapping
-    public PatientDto addNewPatient(@RequestBody @Valid Patient patient) throws AlreadyExistsException {
+    public PatientDto addNewPatient(@RequestBody @Valid Patient patient) throws AlreadyExistsException, CustomIncorrectEntityException {
         return patientService.addNewPatient(patient);
     }
 

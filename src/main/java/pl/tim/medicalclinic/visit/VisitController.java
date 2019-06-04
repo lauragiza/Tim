@@ -34,8 +34,8 @@ public class VisitController {
     }
 
     @PostMapping
-    public Visit createVisit(@RequestBody @Valid Visit visit) throws DoctorAbsentException, CustomEntityNotFoundException {
-        return visitService.createVisit(visit);
+    public VisitDto createVisit(@RequestBody @Valid NewVisitDto visitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
+        return visitService.createVisit(visitDto);
     }
 
     @DeleteMapping("/visitId")
