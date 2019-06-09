@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 import pl.tim.medicalclinic.exception.DoctorAbsentException;
+import pl.tim.medicalclinic.exception.IllegalEntryGoogleCalendarException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,7 +35,7 @@ public class VisitController {
     }
 
     @PostMapping
-    public VisitDto createVisit(@RequestBody @Valid NewVisitDto visitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
+    public VisitDto createVisit(@RequestBody @Valid NewVisitDto visitDto) throws DoctorAbsentException, CustomEntityNotFoundException, IllegalEntryGoogleCalendarException {
         return visitService.createVisit(visitDto);
     }
 

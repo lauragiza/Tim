@@ -10,12 +10,16 @@ import pl.tim.medicalclinic.doctor.Doctor;
 import pl.tim.medicalclinic.doctor.DoctorRepository;
 import pl.tim.medicalclinic.exception.CustomEntityNotFoundException;
 import pl.tim.medicalclinic.exception.DoctorAbsentException;
+import pl.tim.medicalclinic.exception.IllegalEntryGoogleCalendarException;
+import pl.tim.medicalclinic.google.api.CalendarApi;
 import pl.tim.medicalclinic.office.Office;
 import pl.tim.medicalclinic.office.OfficeRepository;
 import pl.tim.medicalclinic.patient.Patient;
 import pl.tim.medicalclinic.patient.PatientRepository;
 import pl.tim.medicalclinic.vacation.Vacation;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,7 @@ public class VisitService {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.modelMapper = modelMapper;
+        this.modelMapper.getConfiguration().setAmbiguityIgnored(true);
     }
 
     VisitDto findVisit(Long id) throws CustomEntityNotFoundException {
@@ -63,12 +68,12 @@ public class VisitService {
 
     }
 
-    VisitDto createVisit(NewVisitDto newVisitDto) throws DoctorAbsentException, CustomEntityNotFoundException {
+    VisitDto createVisit(NewVisitDto newVisitDto) throws DoctorAbsentException, CustomEntityNotFoundException, IllegalEntryGoogleCalendarException {
         Doctor doctor = doctorRepository.findById(newVisitDto.getDoctorId())
                 .orElseThrow(() -> new CustomEntityNotFoundException(Doctor.class, "id", newVisitDto.getDoctorId().toString()));
-        officeRepository.findById(newVisitDto.getOfficeId())
+        Office office = officeRepository.findById(newVisitDto.getOfficeId())
                 .orElseThrow(() -> new CustomEntityNotFoundException(Office.class, "id", newVisitDto.getOfficeId().toString()));
-        patientRepository.findById(newVisitDto.getPatientId())
+        Patient patient = patientRepository.findById(newVisitDto.getPatientId())
                 .orElseThrow(() -> new CustomEntityNotFoundException(Patient.class, "id", newVisitDto.getPatientId().toString()));
         List<Vacation> doctorAbsentDays = doctor.getVacations();
         for (Vacation vacation : doctorAbsentDays) {
@@ -77,6 +82,14 @@ public class VisitService {
             }
         }
         Visit saved = visitRepository.save(convertToEntity(newVisitDto));
+        try {
+            saved.setDoctor(doctor);
+            saved.setOffice(office);
+            saved.setPatient(patient);
+            CalendarApi.addToCalendar(saved);
+        } catch (GeneralSecurityException | IOException e) {
+            throw new IllegalEntryGoogleCalendarException();
+        }
         return convertToDto(saved);
     }
 

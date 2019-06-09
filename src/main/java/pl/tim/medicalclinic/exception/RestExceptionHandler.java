@@ -54,6 +54,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ex.getMessage();
     }
 
+    @ResponseBody
+    @ExceptionHandler(IllegalEntryGoogleCalendarException.class)
+    @ResponseStatus(BAD_REQUEST)
+    String illegalEntryGoogleCalendarHandle(IllegalEntryGoogleCalendarException ec) {
+        return ec.getMessage();
+    }
 
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
