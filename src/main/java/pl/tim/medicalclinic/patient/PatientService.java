@@ -64,8 +64,8 @@ public class PatientService {
         } catch (EntityNotFoundException e) {
             throw new CustomEntityNotFoundException(Patient.class, "id", patient.id.toString());
         }
-        if (!patient.mail.equals(patientDb.mail)) {
-            patientDb.setMail(patient.mail);
+        if (!patient.email.equals(patientDb.email)) {
+            patientDb.setEmail(patient.email);
         }
         if (!patient.street.equals(patientDb.street)) {
             patientDb.setStreet(patient.street);

@@ -62,7 +62,7 @@ public class CalendarApi {
                 .setSummary("Wizyta ")
                 .setLocation("Gabinet : " + visit.getOffice().getName() + " o numerze : " + visit.getOffice().getNumber())
                 .setDescription("Lekarz : " + visit.getDoctor().getName() + " " + visit.getDoctor().getLastname()
-                        + " ma wizytę z " + visit.getPatient().getName() + " " + visit.getPatient().getLastName());
+                        + " ma wizytę z " + visit.getPatient().getName() + " " + visit.getPatient().getSurname());
 
         DateTime starDateTime = new DateTime(visit.getDate().toString());
         EventDateTime start = new EventDateTime()
@@ -74,9 +74,9 @@ public class CalendarApi {
                 .setDateTime(endDateTime);
         event.setEnd(end);
 
-        if (visit.getPatient().getMail() != null) {
+        if (visit.getPatient().getEmail() != null) {
             EventAttendee[] attendees = new EventAttendee[]{
-                    new EventAttendee().setEmail(visit.getPatient().getMail())
+                    new EventAttendee().setEmail(visit.getPatient().getEmail())
             };
             event.setAttendees(Arrays.asList(attendees));
         }
